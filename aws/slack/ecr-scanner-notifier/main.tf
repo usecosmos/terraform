@@ -19,6 +19,8 @@ module "lambda" {
   handler               = "main.lambda_handler"
   aws_lambda_layer_arns = []
   runtime               = "ruby3.2"
+
+  cloudwatch_logs_retention_in_days = var.cloudwatch_logs_retention_in_days
 }
 
 # EventBridge was formerly known as CloudWatch Events. The functionality is identical.

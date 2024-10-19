@@ -13,3 +13,9 @@ variable "slack_webhook_url" {
 variable "slack_channel" {
   type = string
 }
+
+variable cloudwatch_logs_retention_in_days {
+  type    = number
+  default = 90
+  nullable = false
+}

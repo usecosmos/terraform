@@ -39,6 +39,8 @@ module "lambda" {
   }
 
   lambda_policy_json = data.aws_iam_policy_document.iam.json
+
+  cloudwatch_logs_retention_in_days = var.cloudwatch_logs_retention_in_days
 }
 
 data "aws_caller_identity" "current" {}
