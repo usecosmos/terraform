@@ -85,3 +85,9 @@ variable "lambda_role_name" {
   default     = null
   description = "(Optional) AWS IAM role name used by the lambda. If null, a new lambda role will be created."
 }
+
+variable "cloudwatch_logs_retention_in_days" {
+  type     = number
+  default  = 90
+  nullable = false
+}
