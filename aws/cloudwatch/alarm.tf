@@ -449,3 +449,34 @@ resource "aws_cloudwatch_metric_alarm" "extreme_slow_request" {
   }
 
 }
+
+resource "aws_cloudwatch_metric_alarm" "elb_unhealthy_hostcount_alarm" {
+  alarm_name          = "elb-unhealthy-hostcount-alarm"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = 2
+  metric_name         = "UnHealthyHostCount"
+  namespace           = "AWS/ELB"
+  period              = 60
+  statistic           = "Sum"
+  threshold           = 1
+  alarm_description   = "Alarm when UnHealthyHostCount exceeds 1 for 2 consecutive periods"
+
+  dimensions = {
+    LoadBalancerName = var.alb_arn_suffixes[count.index]
+  }
+
+  alarm_actions = var.sns_topic_arns
+}
+
+resource "aws_cloudwatch_metric_alarm" "serverless-function-errors-alarm" {
+  alarm_name          = "serverless-function-errors-alarm"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = 2
+  metric_name         = "Errors"
+  namespace           = "AWS/Lambda"
+  period              = 300 # 5 minutes
+  statistic           = "Average"
+  threshold           = 3 # Adjust threshold based on your requirement
+  alarm_description   = "Alarm when serverless function errors exceed 3 for 2 consecutive periods"
+  alarm_actions       = var.sns_topic_arns
+}
