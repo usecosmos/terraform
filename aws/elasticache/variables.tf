@@ -38,10 +38,6 @@ variable "parameter_group_name" {
 variable "major_version" {
   type    = number
   default = 7
-  validation {
-    condition     = var.major_version >= 6 && var.major_version <= 7
-    error_message = "major_version must be 6 or 7"
-  }
 }
 
 variable "minor_version" {
@@ -111,6 +107,15 @@ variable "data_tiering_enabled" {
 variable "name" {
   type    = string
   default = null
+}
+
+variable "engine" {
+  type    = string
+  default = "redis"
+  validation {
+    condition     = contains(["redis", "valkey"], var.engine)
+    error_message = "engine must be either 'redis' or 'valkey'"
+  }
 }
 
 variable "maxmemory_policy" {

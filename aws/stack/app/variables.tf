@@ -185,13 +185,18 @@ variable "elasticache_node_type" {
   default = "cache.t3.micro"
 }
 
+variable "elasticache_engine" {
+  type    = string
+  default = "redis"
+  validation {
+    condition     = contains(["redis", "valkey"], var.elasticache_engine)
+    error_message = "elasticache engine must be either 'redis' or 'valkey'"
+  }
+}
+
 variable "elasticache_major_version" {
   type    = number
   default = 7
-  validation {
-    condition     = var.elasticache_major_version >= 6 && var.elasticache_major_version <= 7
-    error_message = "elasticache major_version must be 6 or 7"
-  }
 }
 
 variable "elasticache_minor_version" {
@@ -255,9 +260,51 @@ variable "elasticache_automatic_failover_enabled" {
   type    = bool
   default = true
 }
-# =============== Elasticache ================ #
+# =============== Elasticache - END ================ #
 
-# =============== RDS ================ #
+# =============== AURORA - START ================ #
+variable "skip_aurora" {
+  type    = bool
+  default = true
+}
+
+variable "aurora_allow_from_cidr_blocks" {
+  type    = list(string)
+  default = []
+}
+
+variable "aurora_instance_count" {
+  type    = number
+  default = 1
+}
+
+variable "aurora_instance_class" {
+  default = "db.serverless"
+  type    = string
+}
+
+variable "aurora_max_capacity" {
+  type    = number
+  default = 2.0
+}
+
+variable "aurora_min_capacity" {
+  type    = number
+  default = 0.0
+}
+
+variable "aurora_seconds_until_auto_pause" {
+  type    = number
+  default = 300
+}
+
+variable "aurora_engine_version" {
+  type    = string
+  default = "17.4"
+}
+# =============== AURORA - END ================ #
+
+# =============== RDS - START ================ #
 variable "skip_rds" {
   type    = bool
   default = false
@@ -318,12 +365,21 @@ variable "rds_allocated_storage" {
   type    = number
   default = 10
 }
+variable "rds_storage_type" {
+  type    = string
+  default = "gp2"
+}
 variable "rds_allow_from_cidr_blocks" {
   type    = list(string)
   default = []
 }
 
 variable "rds_subnet_group_name" {
+  type    = string
+  default = null
+}
+
+variable "aurora_subnet_group_name" {
   type    = string
   default = null
 }

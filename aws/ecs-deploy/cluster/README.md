@@ -6,7 +6,7 @@ Configuration to deploy a set of ECS services.
 
 ```terraform
 module "ecs_cluster_services" {
-  source = "github.com/dbl-works/terraform//ecs-deploy/cluster?ref=main"
+  source = "github.com/dbl-works/terraform//aws/ecs-deploy/cluster?ref=main"
 
   environment = "staging"
   project     = module.shared.project
@@ -68,7 +68,7 @@ Permitted options for CPU and memory, as per the [docs](https://docs.aws.amazon.
 |-------|------------------------------------|
 | 256   | 512, 1024, 2048                    |
 | 512   | 1024, 2048, 3072, 4096             |
-| 1024  | 1024 - 8192, increments of 1024    |
+| 1024  | 2048 - 8192, increments of 1024    |
 | 2048  | 4096 - 16384, increments of 1024   |
 | 4096  | 8192 - 30720, increments of 1024   |
 | 8192  | 16384 - 61440, increments of 4096  |
