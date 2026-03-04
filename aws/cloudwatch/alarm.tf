@@ -451,6 +451,7 @@ resource "aws_cloudwatch_metric_alarm" "extreme_slow_request" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "elb_unhealthy_hostcount_alarm" {
+  count               = length(var.alb_arn_suffixes) 
   alarm_name          = "elb-unhealthy-hostcount-alarm"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 2
